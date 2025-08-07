@@ -1,9 +1,10 @@
 # Local .terraform directories
 .terraform/
 
-# .tfstate files
+# .tfstate files (CRITICAL: contain secrets!)
 *.tfstate
 *.tfstate.*
+*.tfstate.backup
 
 # Crash log files
 crash.log
@@ -35,3 +36,26 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+# Django specific
+django-app/venv/
+django-app/staticfiles/
+django-app/db.sqlite3
+django-app/**/__pycache__/
+django-app/**/*.pyc
+django-app/**/*.pyo
+
+# Keep example files
+!django-app/db.sqlite3.example
+
+# Google Cloud credentials (if any)
+**/credentials.json
+**/service-account*.json
+**/*-key.json
+**/*.pem
+**/*.p12
+
+# Environment files
+.env
+.env.local
+.env.*.local
