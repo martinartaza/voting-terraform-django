@@ -74,11 +74,16 @@ gcloud builds submit --config=cloudbuild.yaml .
 ### Variables de entorno necesarias
 - `DJANGO_SECRET_KEY`: Clave secreta de Django
 - `DJANGO_DEBUG`: Modo debug (False en producción)
+- `DB_HOST`: Host de la base de datos PostgreSQL
+- `DB_PORT`: Puerto de la base de datos (5432)
+- `DB_NAME`: Nombre de la base de datos
+- `DB_USER`: Usuario de la base de datos
+- `DB_PASSWORD`: Contraseña de la base de datos
 
 ## 📊 Características
 
 - ✅ Django 5.2.5
-- ✅ Base de datos SQLite
+- ✅ Base de datos PostgreSQL (Cloud SQL)
 - ✅ Archivos estáticos con WhiteNoise
 - ✅ Admin de Django funcional
 - ✅ CSRF configurado para Cloud Run
@@ -98,6 +103,12 @@ CSRF_TRUSTED_ORIGINS = [
 
 ### Archivos estáticos
 Los archivos estáticos se sirven con WhiteNoise y se recolectan automáticamente en el build de Docker.
+
+### Base de datos
+La aplicación está configurada para usar PostgreSQL en producción. Para desarrollo local, puedes:
+1. Usar `db.sqlite3.example` como base de datos de ejemplo
+2. Configurar PostgreSQL localmente con las mismas credenciales
+3. Usar las variables de entorno para conectar a la base de datos remota
 
 ## 🚀 URLs
 

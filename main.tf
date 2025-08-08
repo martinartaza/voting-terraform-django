@@ -144,6 +144,10 @@ resource "google_cloud_run_service" "django" {
           value = google_sql_database_instance.default.public_ip_address
         }
         env {
+          name  = "DB_PORT"
+          value = "5432"
+        }
+        env {
           name  = "DJANGO_SETTINGS_MODULE"
           value = "config.settings"
         }

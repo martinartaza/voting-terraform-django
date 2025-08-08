@@ -10,7 +10,7 @@ Despliega automáticamente un proyecto Django **casi completamente limpio** en G
 - ✅ Archivos estáticos con WhiteNoise
 - ✅ Superuser creado automáticamente
 - ✅ CSRF configurado para Cloud Run
-- ✅ **Base de datos SQLite** (temporalmente)
+- ✅ **Base de datos PostgreSQL** (Cloud SQL)
 - ✅ Sin apps adicionales, solo Django core
 
 ---
@@ -147,7 +147,7 @@ terraform apply -auto-approve
 ```
 
 **✅ En esta fase se crea:**
-- Base de datos PostgreSQL
+- Base de datos PostgreSQL (Cloud SQL)
 - Secretos de Django
 - Artifact Registry
 - Cloud Run (con imagen temporal)
@@ -184,12 +184,26 @@ terraform apply -auto-approve
 
 ## 🗄️ Base de Datos
 
-**Actualmente el proyecto usa SQLite** para simplicidad. La base de datos se crea automáticamente en el contenedor.
+**El proyecto usa PostgreSQL (Cloud SQL)** para producción. La base de datos se crea automáticamente en Google Cloud SQL.
 
-**Para cambiar a PostgreSQL en el futuro:**
-1. Modificar `django-app/config/settings.py` para usar PostgreSQL
-2. Agregar `psycopg2-binary` a `requirements.txt`
-3. Configurar las variables de entorno en `main.tf`
+**Características de la base de datos:**
+- ✅ PostgreSQL 14 en Cloud SQL
+- ✅ Acceso público habilitado (para compartir con otros servicios)
+- ✅ Usuario y contraseña configurados automáticamente
+- ✅ Migraciones ejecutadas automáticamente en el deploy
+
+**Información de conexión disponible:**
+```bash
+# Ver información de conexión
+terraform output database_connection_info
+
+# Ver URL completa (sensible)
+terraform output database_url
+```
+
+**Para desarrollo local:**
+- Usa `django-app/db.sqlite3.example` como base de datos de ejemplo
+- O configura PostgreSQL localmente con las mismas credenciales
 
 ---
 
@@ -265,6 +279,16 @@ cd .. && terraform taint google_cloud_run_service.django
 
 # 3. Aplicar cambios
 terraform apply -auto-approve
+```
+
+### Verificar la base de datos
+
+```bash
+# Ver información de conexión
+terraform output database_connection_info
+
+# Ver logs de la aplicación
+gcloud logging read "resource.type=cloud_run_revision AND resource.labels.service_name=django-service" --limit=10
 ```
 
 ### Verificar el estado
