@@ -11,6 +11,7 @@ Despliega automáticamente un proyecto Django **casi completamente limpio** en G
 - ✅ Superuser creado automáticamente
 - ✅ CSRF configurado para Cloud Run
 - ✅ **Base de datos PostgreSQL** (Cloud SQL)
+- ✅ **Dominio personalizado configurable**
 - ✅ Sin apps adicionales, solo Django core
 
 ---
@@ -204,6 +205,15 @@ terraform output database_url
 **Para desarrollo local:**
 - Usa `django-app/db.sqlite3.example` como base de datos de ejemplo
 - O configura PostgreSQL localmente con las mismas credenciales
+
+**Configuración de dominio personalizado:**
+```bash
+# Ver información de DNS para Route 53
+terraform output dns_configuration
+
+# Cambiar dominio en terraform.tfvars
+custom_domain = "tu-dominio.com"
+```
 
 ---
 

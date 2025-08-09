@@ -30,8 +30,14 @@ DEBUG = 'true'
 ALLOWED_HOSTS = ['*']
 
 # CSRF settings for Cloud Run
-# Accept all Cloud Run URLs with wildcard patterns
+# Get custom domain from environment variable
+CUSTOM_DOMAIN = os.environ.get('CUSTOM_DOMAIN', 'django.sebastianartaza.com')
+
 CSRF_TRUSTED_ORIGINS = [
+    # Custom domain
+    f'https://{CUSTOM_DOMAIN}',
+    f'https://{CUSTOM_DOMAIN}/',
+    f'https://{CUSTOM_DOMAIN}/admin/',
     # Cloud Run URL patterns - covers all possible service URLs
     'https://*.run.app',
     'https://*.a.run.app', 

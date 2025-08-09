@@ -57,3 +57,9 @@ variable "DJANGO_SUPERUSER_PASSWORD" {
   type        = string
   sensitive   = true
 }
+
+variable "custom_domain" {
+  description = "Dominio personalizado para la aplicación Django"
+  type        = string
+  default     = "django.sebastianartaza.com"
+}

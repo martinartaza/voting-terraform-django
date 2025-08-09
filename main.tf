@@ -156,6 +156,10 @@ resource "google_cloud_run_service" "django" {
           value = "postgresql://${var.db_user}:${var.db_password}@${google_sql_database_instance.default.public_ip_address}:5432/${google_sql_database.app_db.name}"
         }
         env {
+          name  = "CUSTOM_DOMAIN"
+          value = var.custom_domain
+        }
+        env {
           name  = "DEBUG"
           value = "False"
         }

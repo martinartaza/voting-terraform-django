@@ -17,12 +17,18 @@ python manage.py createcachetable
 # Create superuser if environment variables are provided
 if [ "$DJANGO_SUPERUSER_USERNAME" ] && [ "$DJANGO_SUPERUSER_EMAIL" ] && [ "$DJANGO_SUPERUSER_PASSWORD" ]
 then
-    echo "Creating superuser..."
-    python manage.py createsuperuser \
-        --noinput \
-        --username $DJANGO_SUPERUSER_USERNAME \
-        --email $DJANGO_SUPERUSER_EMAIL
-    echo "Superuser created successfully!"
+    echo "Checking if superuser exists..."
+    if python manage.py shell -c "from django.contrib.auth.models import User; print('User exists' if User.objects.filter(username='$DJANGO_SUPERUSER_USERNAME').exists() else 'User does not exist')" | grep -q "User exists"
+    then
+        echo "Superuser already exists. Skipping creation."
+    else
+        echo "Creating superuser..."
+        python manage.py createsuperuser \
+            --noinput \
+            --username $DJANGO_SUPERUSER_USERNAME \
+            --email $DJANGO_SUPERUSER_EMAIL
+        echo "Superuser created successfully!"
+    fi
 else
     echo "Superuser environment variables not set. Skipping superuser creation."
 fi

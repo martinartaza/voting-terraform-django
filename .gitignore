@@ -59,3 +59,6 @@ django-app/**/*.pyo
 .env
 .env.local
 .env.*.local
+
+# Nuevo proyecto en desarrollo
+voting-terraform-django-github/
